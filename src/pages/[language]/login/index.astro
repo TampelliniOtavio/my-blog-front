@@ -1,0 +1,96 @@
+---
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import { setAuth } from "@/lib/auth";
+import { isApiError } from "@/lib/fetch";
+import { sendLogin, type BodyLogin } from "@/lib/auth/fetch";
+import type { TranslationKeys } from "@/i18n/ui";
+
+const { t } = useTranslations(Astro.url);
+
+const errors = { username: "", password: "", apiMessage: "" };
+
+if (Astro.request.method === "POST") {
+    try {
+        const data = (await Astro.request
+            .formData()
+            .then((data) => Object.fromEntries(data.entries()))) as BodyLogin;
+
+        await sendLogin(data).then((body) => {
+            if (isApiError(body)) {
+                errors.apiMessage = "api.generic-error-response";
+                if (body.message == "Incorrect Username or Password") {
+                    errors.apiMessage = "login.response.incorrect-credentials";
+                }
+                return;
+            }
+
+            setAuth(Astro.cookies, body);
+        });
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(error.message);
+        }
+    }
+}
+---
+
+<Layout title={t("login.title")} description={t("login.description")}>
+    <div
+        class="grid grid-cols-1 md:grid-cols-2 grid-flow-row h-full place-items-center"
+    >
+        <div
+            class="hidden md:block col-span-1 bg-gray-200 dark:bg-black h-full w-full"
+        >
+        </div>
+        <div class="col-span-1 justify-center">
+            <form method="post" class="flex flex-col gap-5">
+                <Label>
+                    {t("login.username.label")}
+                    <Input
+                        type="text"
+                        name="username"
+                        autoComplete="username"
+                        required
+                        className={errors.username || errors.apiMessage
+                            ? "border-red-400"
+                            : ""}
+                    />
+                    {
+                        errors.username && (
+                            <p class="text-red-400">{errors.username}</p>
+                        )
+                    }
+                </Label>
+                <Label>
+                    {t("login.password.label")}
+                    <Input
+                        type="password"
+                        name="password"
+                        autoComplete="current-password"
+                        required
+                        className={errors.password || errors.apiMessage
+                            ? "border-red-400"
+                            : ""}
+                    />
+                    {
+                        errors.password && (
+                            <p class="text-red-400">{errors.password}</p>
+                        )
+                    }
+                </Label>
+                <Button type="submit">{t("login.submit-button")}</Button>
+                {
+                    errors.apiMessage && (
+                        <p class="text-red-400">
+                            {t(errors.apiMessage as TranslationKeys)}
+                        </p>
+                    )
+                }
+            </form>
+        </div>
+    </div>
+</Layout>

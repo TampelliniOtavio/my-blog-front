@@ -13,6 +13,10 @@ const defaultTranslation = {
     "login.username.label": "Usuário",
     "login.password.label": "Senha",
     "login.submit-button": "Entrar",
+    "login.response.incorrect-credentials": "Usuário ou senha incorreta",
+    "api.generic-error-response": "Algo deu errado",
+    "auth.authenticated": "Você está logado",
+    "auth.not-authenticated": "Você Não está logado",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;
@@ -27,5 +31,10 @@ export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
         "login.username.label": "Username",
         "login.password.label": "Password",
         "login.submit-button": "Login",
+        "login.response.incorrect-credentials":
+            "Incorrect username or password",
+        "api.generic-error-response": "Algo deu errado",
+        "auth.authenticated": "You are logged in",
+        "auth.not-authenticated": "You are not logged in",
     },
 } as const;
