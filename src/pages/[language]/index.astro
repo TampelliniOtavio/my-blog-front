@@ -1,3 +1,14 @@
 ---
+import Layout from "@/layouts/Layout.astro";
+import { useTranslations } from "@/i18n/utils";
+import { getAuth } from "@/lib/auth";
 
+const { lang, t } = useTranslations(Astro.url);
+Astro.redirect(lang);
+
+const isAuthenticated = getAuth(Astro.cookies) !== undefined;
 ---
+
+<Layout title="Blogger">
+    {t(isAuthenticated ? "auth.authenticated" : "auth.not-authenticated")}
+</Layout>
