@@ -1,3 +1,5 @@
+import { setAuth } from "@/lib/auth";
+import { type ResponseLogin } from "@/lib/auth/fetch";
 import {
     apiErrorToActionError,
     DefaultActionError,
@@ -30,7 +32,7 @@ export const auth = {
                     throw DefaultActionError();
                 });
             if (isApiError(login)) {
-                let defaultMessage = "errors.defaultMessage";
+                let defaultMessage = "api.generic-error-response";
 
                 switch (login.message) {
                     case "Email already exists":
@@ -48,5 +50,33 @@ export const auth = {
             return login;
         },
         accept: "form",
+    }),
+    loginUser: defineAction({
+        accept: "form",
+        input: z.object({
+            username: z.string(),
+            password: z.string(),
+        }),
+        async handler(input, context) {
+            const login = await fetchBackend
+                .post<ResponseLogin>("/auth/login", input)
+                .catch(() => {
+                    throw DefaultActionError();
+                });
+
+            if (isApiError(login)) {
+                let errorMessage = "api.generic-error-response";
+                if (login.message == "Incorrect Username or Password") {
+                    errorMessage = "login.response.incorrect-credentials";
+                }
+
+                login.message = errorMessage;
+                throw apiErrorToActionError(login);
+            }
+
+            setAuth(context.cookies, login);
+
+            return login;
+        },
     }),
 };

@@ -8,7 +8,6 @@ export type LanguageKeys = keyof typeof languages;
 export const defaultLang: LanguageKeys = "pt-br";
 
 const defaultTranslation = {
-    "errors.defaultMessage": "Ocorreu um erro inesperado",
     "login.title": "Entre na sua conta",
     "login.description": "Insira seu usuário e senha para entrar na sua conta",
     "login.username.label": "Usuário",
@@ -33,7 +32,6 @@ export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
     "pt-br": defaultTranslation,
     en: {
         ...defaultTranslation,
-        "errors.defaultMessage": "An error occurred",
         "login.title": "Log into your account",
         "login.description":
             "Insert your username and password to log into your account",

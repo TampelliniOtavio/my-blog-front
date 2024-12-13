@@ -4,37 +4,24 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
-import { setAuth } from "@/lib/auth";
-import { isApiError } from "@/lib/fetch";
-import { sendLogin, type BodyLogin } from "@/lib/auth/fetch";
+import { getAuth } from "@/lib/auth";
 import type { TranslationKeys } from "@/i18n/ui";
+import { actions } from "astro:actions";
 
-const { t } = useTranslations(Astro.url);
+const isAuthenticated = getAuth(Astro.cookies) !== undefined;
 
-const errors = { username: "", password: "", apiMessage: "" };
+if (isAuthenticated) {
+    return Astro.redirect("/");
+}
 
-if (Astro.request.method === "POST") {
-    try {
-        const data = (await Astro.request
-            .formData()
-            .then((data) => Object.fromEntries(data.entries()))) as BodyLogin;
+const translation = useTranslations(Astro.url);
 
-        await sendLogin(data).then((body) => {
-            if (isApiError(body)) {
-                errors.apiMessage = "api.generic-error-response";
-                if (body.message == "Incorrect Username or Password") {
-                    errors.apiMessage = "login.response.incorrect-credentials";
-                }
-                return;
-            }
+const { t } = translation;
 
-            setAuth(Astro.cookies, body);
-        });
-    } catch (error) {
-        if (error instanceof Error) {
-            console.error(error.message);
-        }
-    }
+const result = Astro.getActionResult(actions.auth.loginUser);
+
+if (result && !result.error) {
+    return Astro.redirect(`/${translation.lang}`);
 }
 ---
 
@@ -47,7 +34,11 @@ if (Astro.request.method === "POST") {
         >
         </div>
         <div class="col-span-1 justify-center">
-            <form method="post" class="flex flex-col gap-5">
+            <form
+                method="post"
+                class="flex flex-col gap-5"
+                action={actions.auth.loginUser}
+            >
                 <Label>
                     {t("login.username.label")}
                     <Input
@@ -55,15 +46,7 @@ if (Astro.request.method === "POST") {
                         name="username"
                         autoComplete="username"
                         required
-                        className={errors.username || errors.apiMessage
-                            ? "border-red-400"
-                            : ""}
                     />
-                    {
-                        errors.username && (
-                            <p class="text-red-400">{errors.username}</p>
-                        )
-                    }
                 </Label>
                 <Label>
                     {t("login.password.label")}
@@ -72,21 +55,13 @@ if (Astro.request.method === "POST") {
                         name="password"
                         autoComplete="current-password"
                         required
-                        className={errors.password || errors.apiMessage
-                            ? "border-red-400"
-                            : ""}
                     />
-                    {
-                        errors.password && (
-                            <p class="text-red-400">{errors.password}</p>
-                        )
-                    }
                 </Label>
                 <Button type="submit">{t("login.submit-button")}</Button>
                 {
-                    errors.apiMessage && (
+                    result?.error?.message && (
                         <p class="text-red-400">
-                            {t(errors.apiMessage as TranslationKeys)}
+                            {t(result?.error?.message as TranslationKeys)}
                         </p>
                     )
                 }
