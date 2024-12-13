@@ -3,8 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { useTranslations } from "@/i18n/utils";
 import { getAuth } from "@/lib/auth";
 
-const { lang, t } = useTranslations(Astro.url);
-Astro.redirect(lang);
+const { t } = useTranslations(Astro.url);
 
 const isAuthenticated = getAuth(Astro.cookies) !== undefined;
 ---
