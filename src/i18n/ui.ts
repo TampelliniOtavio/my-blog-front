@@ -8,6 +8,7 @@ export type LanguageKeys = keyof typeof languages;
 export const defaultLang: LanguageKeys = "pt-br";
 
 const defaultTranslation = {
+    "errors.defaultMessage": "Ocorreu um erro inesperado",
     "login.title": "Entre na sua conta",
     "login.description": "Insira seu usuário e senha para entrar na sua conta",
     "login.username.label": "Usuário",
@@ -17,6 +18,13 @@ const defaultTranslation = {
     "api.generic-error-response": "Algo deu errado",
     "auth.authenticated": "Você está logado",
     "auth.not-authenticated": "Você Não está logado",
+    "signin.title": "Cadastro",
+    "signin.description": "Cadastre-se para acessar mais funcionalidades",
+    "signin.email.label": "Email",
+    "signin.card.title": "Cadastre sua conta",
+    "signin.submitButton": "Cadastrar",
+    "signin.errors.emailExists": "Já Existe um email cadastrado",
+    "signin.errors.userExists": "Já Existe um usuário cadastrado",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;
@@ -25,6 +33,7 @@ export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
     "pt-br": defaultTranslation,
     en: {
         ...defaultTranslation,
+        "errors.defaultMessage": "An error occurred",
         "login.title": "Log into your account",
         "login.description":
             "Insert your username and password to log into your account",
@@ -36,5 +45,11 @@ export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
         "api.generic-error-response": "Algo deu errado",
         "auth.authenticated": "You are logged in",
         "auth.not-authenticated": "You are not logged in",
+        "signin.title": "Sign in",
+        "signin.description": "Sign in to access more functionalities",
+        "signin.submitButton": "Create",
+        "signin.card.title": "Create your account",
+        "signin.errors.emailExists": "Email already exists",
+        "signin.errors.userExists": "Username already exists",
     },
 } as const;
