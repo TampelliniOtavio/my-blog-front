@@ -12,5 +12,5 @@ export interface BodyLogin {
 export async function sendLogin(
     data: BodyLogin,
 ): Promise<FetchReturn<ResponseLogin>> {
-    return fetchBackend.post("/auth/login", data).then((r) => r.json());
+    return fetchBackend.post("/auth/login", data);
 }
