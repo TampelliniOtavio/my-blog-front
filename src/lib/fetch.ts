@@ -91,3 +91,12 @@ export function apiErrorToActionError(data: ApiError): ActionError {
 
 export const DefaultActionError = () =>
     new ActionError({ code: "INTERNAL_SERVER_ERROR" });
+
+export class UnauthenticatedError extends ActionError {
+    constructor() {
+        super({
+            code: "UNAUTHORIZED",
+            message: "auth.unauthorized",
+        });
+    }
+}
