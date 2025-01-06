@@ -39,8 +39,8 @@ function fetchWithBody(method: "POST" | "PUT" | "PATCH") {
 }
 
 function fetchWithoutBody(method: "GET" | "DELETE") {
-    return (url: string, init?: RequestInitBackend) => {
-        return baseFetch(url, {
+    return <T extends object>(url: string, init?: RequestInitBackend) => {
+        return baseFetch<T>(url, {
             ...init,
             method,
         });
