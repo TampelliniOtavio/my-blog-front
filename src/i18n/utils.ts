@@ -7,13 +7,21 @@ function getLangFromUrl(url: URL): LanguageKeys {
 }
 
 function translate(lang: keyof typeof ui) {
-    return function t(key: TranslationKeys) {
-        return ui[lang][key] || ui[defaultLang][key];
+    return function t(key: TranslationKeys, ...replaces: string[]) {
+        const translated = ui[lang][key] || ui[defaultLang][key];
+        if (replaces.length === 0) {
+            return translated;
+        }
+
+        return replaces.reduce(
+            (prev, curr, index) => prev.replace(`$${index}`, curr),
+            translated,
+        );
     };
 }
 
 export function useTranslations(url: URL): {
-    t: (key: TranslationKeys) => string;
+    t: (key: TranslationKeys, ...replaces: string[]) => string;
     lang: LanguageKeys;
 } {
     const lang = getLangFromUrl(url);
