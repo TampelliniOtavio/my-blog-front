@@ -1,7 +1,7 @@
 export interface IPost {
     xid: string;
     post: string;
-    createdBy: number;
+    createdBy: string;
     createdAt: string;
     updatedAt: string;
 }

@@ -25,6 +25,7 @@ const defaultTranslation = {
     "signin.submitButton": "Cadastrar",
     "signin.errors.emailExists": "Já Existe um email cadastrado",
     "signin.errors.userExists": "Já Existe um usuário cadastrado",
+    "post.title": "@$0",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;

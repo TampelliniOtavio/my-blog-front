@@ -41,13 +41,24 @@ export const posts = {
             offset: z.number(),
         }),
         async handler(input, _context) {
-            const posts = await fetchBackend.get<IPost>(
+            const posts = await fetchBackend.get<IPost[]>(
                 `/posts?limit=${input.limit}&offset=${input.offset}`,
             );
             if (isApiError(posts)) {
                 throw apiErrorToActionError(posts);
             }
             return posts;
+        },
+    }),
+    getAPost: defineAction({
+        accept: "json",
+        input: z.string(),
+        async handler(xid, _context) {
+            const post = await fetchBackend.get<IPost>(`/posts/${xid}`);
+            if (isApiError(post)) {
+                throw apiErrorToActionError(post);
+            }
+            return post;
         },
     }),
 };

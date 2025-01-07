@@ -1,0 +1,15 @@
+---
+import { actions } from "astro:actions";
+import QueryPostsButton from "./QueryPostsButton";
+import Post from "./Post";
+
+const limit = 10;
+
+const { data } = await Astro.callAction(actions.posts.getPosts, {
+    limit,
+    offset: 0,
+});
+---
+
+{data?.map((row) => <Post post={row} url={Astro.url} />)}
+{data && <QueryPostsButton url={Astro.url} limit={limit} client:only="react" />}

@@ -1,13 +1,10 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { useTranslations } from "@/i18n/utils";
-import { getAuth } from "@/lib/auth";
-
-const { t } = useTranslations(Astro.url);
-
-const isAuthenticated = getAuth(Astro.cookies) !== undefined;
+import PostsList from "@/components/posts/PostsList.astro";
 ---
 
 <Layout title="Blogger">
-    {t(isAuthenticated ? "auth.authenticated" : "auth.not-authenticated")}
+    <main class="flex flex-col gap-0 pb-10">
+        <PostsList />
+    </main>
 </Layout>
