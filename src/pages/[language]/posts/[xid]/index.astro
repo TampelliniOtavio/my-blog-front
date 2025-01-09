@@ -1,0 +1,27 @@
+---
+import Post from "@/components/posts/Post";
+import { useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import { actions } from "astro:actions";
+
+const { xid } = Astro.params;
+
+const { lang, t } = useTranslations(Astro.url);
+
+if (xid === undefined) {
+    return Astro.redirect("/" + lang);
+}
+
+const { data, error } = await Astro.callAction(actions.posts.getAPost, xid);
+
+if (error) {
+    return Astro.redirect("/" + lang);
+}
+---
+
+<Layout
+    title={"Post from " + t("post.title", data.createdBy)}
+    description={data.post}
+>
+    <Post post={data} url={Astro.url} />
+</Layout>
