@@ -1,10 +1,17 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PostsList from "@/components/posts/PostsList.astro";
+import CreatePost from "@/components/posts/CreatePost";
+import { getAuth } from "@/lib/auth";
+
+const auth = getAuth(Astro.cookies);
 ---
 
 <Layout title="Blogger">
     <main class="flex flex-col gap-0 pb-10">
+        <article class="mb-5">
+            <CreatePost client:load url={Astro.url} auth={auth?.headers()} />
+        </article>
         <PostsList />
     </main>
 </Layout>

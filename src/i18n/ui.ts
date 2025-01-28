@@ -26,6 +26,9 @@ const defaultTranslation = {
     "signin.errors.emailExists": "Já Existe um email cadastrado",
     "signin.errors.userExists": "Já Existe um usuário cadastrado",
     "post.title": "@$0",
+    "createPost.button": "Postar",
+    "createPost.not-logged-in": "Não está logado",
+    "createPost.error.post-not-valid": "Campo Inválido",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;
@@ -52,5 +55,8 @@ export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
         "signin.card.title": "Create your account",
         "signin.errors.emailExists": "Email already exists",
         "signin.errors.userExists": "Username already exists",
+        "createPost.button": "Post",
+        "createPost.not-logged-in": "Not Logged In",
+        "createPost.error.post-not-valid": "Invalid Field",
     },
 } as const;
