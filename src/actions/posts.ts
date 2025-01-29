@@ -16,7 +16,7 @@ export const posts = {
             post: z.string(),
         }),
         async handler(input, context) {
-            const auth = getAuth(context.cookies);
+            const auth = await getAuth(context.cookies);
             if (!auth) {
                 throw new UnauthenticatedError();
             }
@@ -59,6 +59,30 @@ export const posts = {
                 throw apiErrorToActionError(post);
             }
             return post;
+        },
+    }),
+    deletePost: defineAction({
+        accept: "json",
+        input: z.object({
+            xid: z.string(),
+            auth: z.string().or(z.undefined()),
+        }),
+        async handler({ xid, auth }, context) {
+            if (!auth) {
+                throw new UnauthenticatedError();
+            }
+
+            const del = await fetchBackend.delete<IPost>("/posts/" + xid, {
+                headers: {
+                    Authorization: `Bearer ${auth}`,
+                },
+            });
+
+            if (isApiError(del)) {
+                throw apiErrorToActionError(del);
+            }
+
+            return del;
         },
     }),
 };

@@ -8,7 +8,7 @@ import { getAuth } from "@/lib/auth";
 import type { TranslationKeys } from "@/i18n/ui";
 import { actions } from "astro:actions";
 
-const isAuthenticated = getAuth(Astro.cookies) !== undefined;
+const isAuthenticated = (await getAuth(Astro.cookies)) !== undefined;
 
 if (isAuthenticated) {
     return Astro.redirect("/");

@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { getAuth } from "@/lib/auth";
 
-const isAuthenticated = getAuth(Astro.cookies) !== undefined;
+const isAuthenticated = (await getAuth(Astro.cookies)) !== undefined;
 
 if (isAuthenticated) {
     return Astro.redirect("/");

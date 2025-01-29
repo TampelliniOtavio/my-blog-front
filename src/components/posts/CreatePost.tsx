@@ -4,16 +4,18 @@ import { useTranslations } from "@/i18n/utils";
 import { useState, type FormEventHandler } from "react";
 import { isApiError } from "@/lib/fetch";
 import type { TranslationKeys } from "@/i18n/ui";
+import { getAuthAtom } from "@/nanostores/auth";
 
 type Props = {
     url: URL;
-    auth?: HeadersInit;
 };
 
-export default function CreatePost({ url, auth }: Props) {
+export default function CreatePost({ url }: Props) {
     const { t } = useTranslations(url);
     const [err, setErr] = useState<TranslationKeys>();
     const [loading, setLoading] = useState(false);
+
+    const auth = getAuthAtom();
 
     const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
@@ -28,7 +30,7 @@ export default function CreatePost({ url, auth }: Props) {
             method: "POST",
             body: formData,
             headers: {
-                ...auth,
+                Authorization: "Bearer " + auth?.getToken(),
             },
         })
             .then((r) => r.json())

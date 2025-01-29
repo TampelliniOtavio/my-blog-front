@@ -4,10 +4,10 @@ import type { MiddlewareHandler } from "astro";
 import { getAuth } from "./lib/auth";
 import { useTranslations } from "./i18n/utils";
 
-const authMiddleware: MiddlewareHandler = (context, next) => {
+const authMiddleware: MiddlewareHandler = async (context, next) => {
     if (
         context.url.pathname.includes("/login") &&
-        getAuth(context.cookies) !== undefined
+        (await getAuth(context.cookies)) !== undefined
     ) {
         const { lang } = useTranslations(context.url);
         return context.redirect("/" + lang);
