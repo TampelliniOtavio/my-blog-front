@@ -8,6 +8,7 @@ import {
     CardTitle,
 } from "../ui/card";
 import PostLink from "./PostLink";
+import PostDropdownMenu from "./PostDropdownMenu";
 
 type Props = {
     post: IPost;
@@ -22,8 +23,9 @@ export default function Post({ post, url, withLink = false }: Props) {
 
     return (
         <Card className="rounded-none border-x-transparent">
-            <CardHeader>
+            <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>{t("post.title", post.createdBy)}</CardTitle>
+                <PostDropdownMenu post={post} canDeletePost />
             </CardHeader>
             <PostLink url={url} post={post} hasLink={withLink}>
                 <CardContent>

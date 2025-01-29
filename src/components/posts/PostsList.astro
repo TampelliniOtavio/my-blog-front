@@ -11,5 +11,9 @@ const { data } = await Astro.callAction(actions.posts.getPosts, {
 });
 ---
 
-{data?.map((row) => <Post post={row} url={Astro.url} withLink />)}
+{
+    data?.map((row) => (
+        <Post post={row} url={Astro.url} client:only="react" withLink />
+    ))
+}
 {data && <QueryPostsButton url={Astro.url} limit={limit} client:only="react" />}

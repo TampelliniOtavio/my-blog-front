@@ -23,5 +23,5 @@ if (error) {
     title={"Post from " + t("post.title", data.createdBy)}
     description={data.post}
 >
-    <Post post={data} url={Astro.url} />
+    <Post post={data} url={Astro.url} client:only="react" />
 </Layout>
