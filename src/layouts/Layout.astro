@@ -1,6 +1,9 @@
 ---
+import AtomSetters from "@/components/AtomSetters";
 import BaseHeaders from "@/components/BaseHeaders.astro";
 import { useTranslations } from "@/i18n/utils";
+import { getAuth } from "@/lib/auth";
+import { Toaster } from "@/components/ui/toaster";
 
 interface Props {
     title: string;
@@ -13,6 +16,8 @@ const { lang } = useTranslations(Astro.url);
 const langFormatted = lang.replace(/-[a-z]{2}/, (match) => match.toUpperCase());
 
 const { title, description = "", image } = Astro.props;
+const auth = await getAuth(Astro.cookies);
+const user = await auth?.getUser(true);
 ---
 
 <!doctype html>
@@ -20,9 +25,14 @@ const { title, description = "", image } = Astro.props;
     <head>
         <BaseHeaders title={title} description={description} image={image} />
     </head>
+    <AtomSetters
+        auth={auth ? { token: auth.getToken(), user } : undefined}
+        client:only="react"
+    />
     <body class="w-full h-full overflow-auto">
         <slot />
     </body>
+    <Toaster client:only="react" />
 </html>
 
 <script is:inline>
