@@ -1,0 +1,10 @@
+---
+import { useTranslations } from "@/i18n/utils";
+import { deleteAuth } from "@/lib/auth";
+
+deleteAuth(Astro.cookies);
+
+const { lang } = useTranslations(Astro.url);
+
+return Astro.redirect(`/${lang}`);
+---
