@@ -1,4 +1,4 @@
-import type { Auth, IAuth } from "@/lib/auth";
+import type { IAuth } from "@/lib/auth";
 import { setAuthAtom } from "@/nanostores/auth";
 import { useEffect } from "react";
 
