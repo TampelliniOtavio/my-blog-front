@@ -1,5 +1,5 @@
 ---
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useTranslations } from "@/i18n/utils";
@@ -58,6 +58,9 @@ if (result && !result.error) {
                     />
                 </Label>
                 <Button type="submit">{t("login.submit-button")}</Button>
+                <a href="/" class={buttonVariants({ variant: "outline" })}
+                    >{t("login.cancel-button")}</a
+                >
                 {
                     result?.error?.message && (
                         <p class="text-red-400">

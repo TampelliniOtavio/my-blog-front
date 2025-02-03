@@ -30,3 +30,5 @@ export function useTranslations(url: URL): {
         lang,
     };
 }
+
+export type IUseTranslations = ReturnType<typeof useTranslations>;

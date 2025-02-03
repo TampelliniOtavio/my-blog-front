@@ -4,7 +4,7 @@ import { useTranslations } from "@/i18n/utils";
 import Layout from "@/layouts/Layout.astro";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { TranslationKeys } from "@/i18n/ui";
 import {
     Card,
@@ -75,8 +75,11 @@ if (result && !result.error) {
                         )
                     }
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex justify-between">
                     <Button type="submit">{t("signin.submitButton")}</Button>
+                    <a href="/" class={buttonVariants({ variant: "outline" })}
+                        >{t("signin.cancelButton")}</a
+                    >
                 </CardFooter>
             </form>
         </Card>
