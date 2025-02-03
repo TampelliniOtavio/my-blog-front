@@ -5,24 +5,28 @@ import BaseHeaders from "@/components/BaseHeaders.astro";
 import { useTranslations } from "@/i18n/utils";
 import { getAuth } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
 
 interface Props {
     title: string;
     description?: string;
     image?: string;
+    noNavbar?: boolean;
 }
 
 const { lang } = useTranslations(Astro.url);
 
 const langFormatted = lang.replace(/-[a-z]{2}/, (match) => match.toUpperCase());
 
-const { title, description = "", image } = Astro.props;
+const { title, description = "", image, noNavbar = false } = Astro.props;
 const auth = await getAuth(Astro.cookies);
 const user = await auth?.getUser(true);
+const isAuthenticated = Boolean(user);
 ---
 
 <!doctype html>
-<html lang={langFormatted} class="w-screen h-screen">
+<html lang={langFormatted} class="dark">
     <head>
         <BaseHeaders title={title} description={description} image={image} />
     </head>
@@ -30,8 +34,28 @@ const user = await auth?.getUser(true);
         auth={auth ? { token: auth.getToken(), user } : undefined}
         client:only="react"
     />
-    <body class="w-full h-full overflow-auto">
-        <slot />
+    <body>
+        <div class="w-screen h-screen overflow-auto relative">
+            {
+                !noNavbar && (
+                    <Navbar
+                        client:load
+                        url={Astro.url}
+                        isAuthenticated={isAuthenticated}
+                    />
+                )
+            }
+            {
+                !noNavbar && (
+                    <Sidebar
+                        client:load
+                        url={Astro.url}
+                        isAuthenticated={isAuthenticated}
+                    />
+                )
+            }
+            <slot />
+        </div>
     </body>
     <Toaster client:only="react" />
 </html>

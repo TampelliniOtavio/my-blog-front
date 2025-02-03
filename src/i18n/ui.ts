@@ -36,6 +36,11 @@ const defaultTranslation = {
     "createPost.button": "Postar",
     "createPost.not-logged-in": "Não está logado",
     "createPost.error.post-not-valid": "Campo Inválido",
+    "navbar.home": "Início",
+    "navbar.account": "Conta",
+    "navbar.login": "Entrar",
+    "navbar.signin": "Cadastrar",
+    "navbar.logout": "Sair",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;
@@ -67,6 +72,11 @@ const englishTranslation: Record<TranslationKeys, string> = {
     "createPost.button": "Post",
     "createPost.not-logged-in": "Not Logged In",
     "createPost.error.post-not-valid": "Invalid Field",
+    "navbar.home": "Home",
+    "navbar.account": "Account",
+    "navbar.login": "Log In",
+    "navbar.signin": "Sign In",
+    "navbar.logout": "Log Out",
 };
 
 export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {
