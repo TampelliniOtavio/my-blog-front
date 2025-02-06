@@ -3,6 +3,7 @@ import { useState } from "react";
 import Post from "./Post";
 import { actions } from "astro:actions";
 import { Button } from "../ui/button";
+import { LoaderIcon, RotateCw } from "lucide-react";
 
 type Props = {
     limit: number;
@@ -39,9 +40,16 @@ export default function QueryPostsButton({ url, limit }: Props) {
             {posts.map((post) => (
                 <Post post={post} url={url} key={post.xid} />
             ))}
-            <Button className="mt-5" disabled={loading} onClick={appendPosts}>
-                search
-            </Button>
+            <div className="w-full flex place-content-center mt-5">
+                {loading && (
+                    <LoaderIcon
+                        size={48}
+                        className="animate-spin"
+                        color={"gray"}
+                    />
+                )}
+                {!loading && <RotateCw size={48} onClick={appendPosts} />}
+            </div>
         </>
     );
 }
