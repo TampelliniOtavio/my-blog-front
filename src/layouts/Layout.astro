@@ -54,7 +54,9 @@ const isAuthenticated = Boolean(user);
                     />
                 )
             }
-            <slot />
+            <main class="w-full h-full flex flex-col">
+                <slot />
+            </main>
         </div>
     </body>
     <Toaster client:only="react" />
