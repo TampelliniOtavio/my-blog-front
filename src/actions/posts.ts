@@ -40,9 +40,18 @@ export const posts = {
             limit: z.number(),
             offset: z.number(),
         }),
-        async handler(input, _context) {
+        async handler(input, context) {
+            let headers: HeadersInit = {};
+            const auth = await getAuth(context.cookies);
+            if (auth) {
+                headers = auth.headers();
+            }
+
             const posts = await fetchBackend.get<IPost[]>(
                 `/posts?limit=${input.limit}&offset=${input.offset}`,
+                {
+                    headers,
+                },
             );
             if (isApiError(posts)) {
                 throw apiErrorToActionError(posts);
@@ -53,8 +62,15 @@ export const posts = {
     getAPost: defineAction({
         accept: "json",
         input: z.string(),
-        async handler(xid, _context) {
-            const post = await fetchBackend.get<IPost>(`/posts/${xid}`);
+        async handler(xid, context) {
+            let headers: HeadersInit = {};
+            const auth = await getAuth(context.cookies);
+            if (auth) {
+                headers = auth.headers();
+            }
+            const post = await fetchBackend.get<IPost>(`/posts/${xid}`, {
+                headers,
+            });
             if (isApiError(post)) {
                 throw apiErrorToActionError(post);
             }
@@ -67,7 +83,7 @@ export const posts = {
             xid: z.string(),
             auth: z.string().or(z.undefined()),
         }),
-        async handler({ xid, auth }, context) {
+        async handler({ xid, auth }, _context) {
             if (!auth) {
                 throw new UnauthenticatedError();
             }
@@ -83,6 +99,62 @@ export const posts = {
             }
 
             return del;
+        },
+    }),
+    likePost: defineAction({
+        accept: "json",
+        input: z.object({
+            xid: z.string(),
+            auth: z.string().or(z.undefined()),
+        }),
+        async handler({ xid, auth }, _context) {
+            if (!auth) {
+                throw new UnauthenticatedError();
+            }
+
+            const liked = await fetchBackend.post<IPost>(
+                "/posts/" + xid + "/like",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${auth}`,
+                    },
+                },
+            );
+
+            if (isApiError(liked)) {
+                throw apiErrorToActionError(liked);
+            }
+
+            return liked;
+        },
+    }),
+    dislikePost: defineAction({
+        accept: "json",
+        input: z.object({
+            xid: z.string(),
+            auth: z.string().or(z.undefined()),
+        }),
+        async handler({ xid, auth }, _context) {
+            if (!auth) {
+                throw new UnauthenticatedError();
+            }
+
+            const disliked = await fetchBackend.post<IPost>(
+                "/posts/" + xid + "/dislike",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${auth}`,
+                    },
+                },
+            );
+
+            if (isApiError(disliked)) {
+                throw apiErrorToActionError(disliked);
+            }
+
+            return disliked;
         },
     }),
 };

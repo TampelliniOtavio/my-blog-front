@@ -5,5 +5,6 @@ export interface IPost {
     likeCount: number;
     createdAt: string;
     updatedAt: string;
+    isLikedByUser: boolean;
     deletedAt: string | null;
 }
