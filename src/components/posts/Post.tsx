@@ -41,6 +41,11 @@ export default function Post({ post, url, withLink = false }: Props) {
 
     const alternateLike = useCallback(() => {
         if (loadingRef.current || !isAuthenticated) {
+            if (!isAuthenticated) {
+                toast({
+                    title: t("auth.not-authenticated"),
+                });
+            }
             return;
         }
         loadingRef.current = true;
