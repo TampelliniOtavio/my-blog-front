@@ -1,11 +1,13 @@
-import { setAuth } from "@/lib/auth";
+import { getAuth, setAuth } from "@/lib/auth";
 import { type ResponseLogin } from "@/lib/auth/fetch";
 import {
     apiErrorToActionError,
     DefaultActionError,
     fetchBackend,
     isApiError,
+    UnauthenticatedError,
 } from "@/lib/fetch";
+import { isAPropagatingComponent } from "astro/runtime/server/render/astro/factory.js";
 import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
@@ -77,6 +79,23 @@ export const auth = {
             setAuth(context.cookies, login);
 
             return login;
+        },
+    }),
+    myProfile: defineAction({
+        async handler(_input, context) {
+            const auth = await getAuth(context.cookies);
+
+            if (!auth) {
+                throw new UnauthenticatedError();
+            }
+
+            const user = await auth.getUser(true);
+
+            if (!user) {
+                throw new UnauthenticatedError();
+            }
+
+            return user;
         },
     }),
 };
