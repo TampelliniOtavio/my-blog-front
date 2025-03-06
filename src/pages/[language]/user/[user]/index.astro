@@ -1,0 +1,25 @@
+---
+import { useTranslations } from "@/i18n/utils";
+import Layout from "@/layouts/Layout.astro";
+import { actions } from "astro:actions";
+
+const { user } = Astro.params;
+
+const { lang } = useTranslations(Astro.url);
+
+if (user === undefined) {
+    return Astro.redirect("/" + lang);
+}
+
+const { data, error } = await Astro.callAction(actions.users.getUser, {
+    username: user,
+});
+
+if (!data) {
+    return Astro.redirect("/" + lang);
+}
+---
+
+<Layout title={user}>
+    Account of {user}
+</Layout>

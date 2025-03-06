@@ -1,0 +1,7 @@
+---
+import { useTranslations } from "@/i18n/utils";
+
+const { lang } = useTranslations(Astro.url);
+
+return Astro.redirect(`/${lang}`);
+---

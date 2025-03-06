@@ -1,0 +1,14 @@
+---
+import { useTranslations } from "@/i18n/utils";
+import { actions } from "astro:actions";
+
+const { data } = await Astro.callAction(actions.auth.myProfile, null);
+
+const { lang } = useTranslations(Astro.url);
+
+if (data) {
+    return Astro.redirect(`/${lang}/user/${data.username}`);
+}
+
+return Astro.redirect(`/${lang}`);
+---

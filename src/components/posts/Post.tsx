@@ -78,7 +78,11 @@ export default function Post({ post, url, withLink = false }: Props) {
     return (
         <Card className="rounded-none border-x-transparent">
             <CardHeader className="flex flex-row justify-between items-center">
-                <CardTitle>{t("post.title", post.createdBy)}</CardTitle>
+                <CardTitle>
+                    <a href={`/${lang}/user/${post.createdBy}`}>
+                        {t("post.title", post.createdBy)}
+                    </a>
+                </CardTitle>
                 <PostDropdownMenu post={post} canDeletePost />
             </CardHeader>
             <PostLink url={url} post={post} hasLink={withLink}>
