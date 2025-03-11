@@ -30,7 +30,9 @@ export default function Navbar({ url, isAuthenticated }: Props) {
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Conta</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>
+                        {t("navbar.account")}
+                    </NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-4 w-[200px]">
                             {isAuthenticated ? (
