@@ -1,0 +1,22 @@
+---
+import type { IUser } from "@/lib/auth";
+import Layout from "./Layout.astro";
+import UserNavbar from "@/components/users/Navbar";
+
+interface Props {
+    title: string;
+    description?: string;
+    user: IUser;
+}
+
+const { title, description = "", user } = Astro.props;
+---
+
+<Layout
+    title={`@${user.username}${title ? " - " + title : ""}`}
+    description={description}
+>
+    <h2 class="text-3xl text-center font-bold">@{user.username}</h2>
+    <UserNavbar user={user} url={Astro.url} />
+    <slot />
+</Layout>

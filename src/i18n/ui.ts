@@ -43,6 +43,8 @@ const defaultTranslation = {
     "navbar.login": "Entrar",
     "navbar.signin": "Cadastrar",
     "navbar.logout": "Sair",
+    "navbar.users.posts": "Postagens",
+    "navbar.users.likes": "Curtidas",
 };
 
 export type TranslationKeys = keyof typeof defaultTranslation;
@@ -81,6 +83,8 @@ const englishTranslation: Record<TranslationKeys, string> = {
     "navbar.login": "Log In",
     "navbar.signin": "Sign In",
     "navbar.logout": "Log Out",
+    "navbar.users.posts": "Posts",
+    "navbar.users.likes": "Likes",
 };
 
 export const ui: Record<LanguageKeys, Record<TranslationKeys, string>> = {

@@ -7,7 +7,7 @@ const { data } = await Astro.callAction(actions.auth.myProfile, null);
 const { lang } = useTranslations(Astro.url);
 
 if (data) {
-    return Astro.redirect(`/${lang}/user/${data.username}`);
+    return Astro.redirect(`/${lang}/users/${data.username}`);
 }
 
 return Astro.redirect(`/${lang}`);

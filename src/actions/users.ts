@@ -1,4 +1,4 @@
-import { getAuth } from "@/lib/auth";
+import { getAuth, type IUser } from "@/lib/auth";
 import { apiErrorToActionError, fetchBackend, isApiError } from "@/lib/fetch";
 import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
@@ -13,7 +13,7 @@ export const users = {
 
             const headers: HeadersInit = auth?.headers() ?? {};
 
-            const user = await fetchBackend.get("/users/" + username, {
+            const user = await fetchBackend.get<IUser>("/users/" + username, {
                 headers: {
                     ...headers,
                 },

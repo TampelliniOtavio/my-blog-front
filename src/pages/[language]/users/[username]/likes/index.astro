@@ -1,0 +1,23 @@
+---
+import { useTranslations } from "@/i18n/utils";
+import LayoutUser from "@/layouts/LayoutUser.astro";
+import { actions } from "astro:actions";
+
+const { lang, t } = useTranslations(Astro.url);
+
+const { username } = Astro.params;
+
+if (!username) {
+    return Astro.redirect(`/${lang}`);
+}
+
+const { data, error } = await Astro.callAction(actions.users.getUser, {
+    username,
+});
+
+if (error) {
+    return Astro.redirect(`/${lang}`);
+}
+---
+
+<LayoutUser title={t("navbar.users.likes")} user={data} />
