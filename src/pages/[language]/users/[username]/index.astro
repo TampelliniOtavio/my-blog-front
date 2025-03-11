@@ -20,4 +20,6 @@ if (error) {
 }
 ---
 
-<LayoutUser title={t("navbar.users.posts")} user={data} />
+<LayoutUser title={t("navbar.users.posts")} user={data}>
+    <main transition:name="user" transition:animate="fade"></main>
+</LayoutUser>

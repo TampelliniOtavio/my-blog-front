@@ -47,6 +47,7 @@ export default function Navbar({ url, isAuthenticated }: Props) {
                                     <li>
                                         <NavigationMenuLink
                                             href={`/${lang}/logout`}
+                                            data-astro-reload
                                         >
                                             {t("navbar.logout")}
                                         </NavigationMenuLink>

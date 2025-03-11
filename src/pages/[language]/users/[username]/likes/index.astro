@@ -2,6 +2,7 @@
 import { useTranslations } from "@/i18n/utils";
 import LayoutUser from "@/layouts/LayoutUser.astro";
 import { actions } from "astro:actions";
+import { slide } from "astro:transitions";
 
 const { lang, t } = useTranslations(Astro.url);
 
@@ -20,4 +21,6 @@ if (error) {
 }
 ---
 
-<LayoutUser title={t("navbar.users.likes")} user={data} />
+<LayoutUser title={t("navbar.users.likes")} user={data}>
+    <main transition:name="user" transition:animate="fade"></main>
+</LayoutUser>
